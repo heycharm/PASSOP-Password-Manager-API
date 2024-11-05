@@ -45,6 +45,11 @@ app.use((req, res, next) => {
     console.log('Session after request:', req.session);
     next();
   });
+  app.get('/test-cookie', (req, res) => {
+    res.cookie('testCookie', 'testValue', { httpOnly: true, secure: true, sameSite: 'None' });
+    res.send('Cookie set');
+});
+
 // Define routes for authentication and password management
 app.get("/", (req,res)=>{
     res.json("Hello App")
