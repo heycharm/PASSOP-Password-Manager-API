@@ -13,9 +13,9 @@ const app = express();
 
 // CORS Options
 const corsOptions = {
-    origin: "https://passop-heycharm.vercel.app",
-    methods:["POST", "GET"], 
-    credentials: true, 
+    origin: "https://passop-heycharm.vercel.app", 
+    credentials: true,
+    methods: ["POST", "GET", "PUT", "DELETE"]
 };
 
 app.use(cors(corsOptions));
