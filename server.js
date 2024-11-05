@@ -14,11 +14,10 @@ const app = express();
 // CORS Options
 const corsOptions = {
     origin: "https://passop-heycharm.vercel.app",
-    methods:["POST", "GET"], // Should be set to your frontend URL in the environment variables
-    credentials: true, // Allow credentials to be included in CORS requests
+    methods:["POST", "GET"], 
+    credentials: true, 
 };
 
-// Use CORS middleware
 app.use(cors(corsOptions));
 
 // Middleware for parsing JSON requests
