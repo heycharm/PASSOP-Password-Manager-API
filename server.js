@@ -29,7 +29,7 @@ app.use(session({
     resave: false, // Prevents resaving of sessions that are unmodified
     saveUninitialized: false, // Prevents uninitialized sessions from being saved
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        // secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
         maxAge: 24 * 60 * 60 * 1000, // Set cookie expiration to 1 day
          sameSite: 'Lax'
