@@ -13,12 +13,14 @@ router.post('/login', async (req, res) => {
         }
         
         req.session.userId = user._id; // Store user ID in the session
-        res.json({ msg: "Login successful", user });
+        res.status(200).json({ msg: "Login successful", user }); // Send a success response
     } catch (error) {
         console.log("Login error:", error); // Log the full error for debugging
         res.status(500).json({ msg: "Error during login", error });
     }
 });
+
+//registration
 router.post('/registration', async (req, res) => {
      const { name, email,phone, password } = req.body;
  
