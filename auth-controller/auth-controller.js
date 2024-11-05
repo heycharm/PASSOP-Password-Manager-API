@@ -50,7 +50,8 @@ const login = async (req, res) => {
         if (user.password !== password) {
             return res.status(400).json({ msg: "Invalid password" });
         }
-
+        req.session.userId = req.body.userId; // Save user ID in session
+        console.log("Session data after login:", req.session); // Debugging statement
         // If login is successful, send back user data or a success message
         res.status(200).json({ msg: "Login successful", user });
     } catch (error) {
