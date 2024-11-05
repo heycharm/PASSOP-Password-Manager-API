@@ -32,10 +32,19 @@ app.use(session({
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
         maxAge: 24 * 60 * 60 * 1000, // Set cookie expiration to 1 day
-         sameSite: 'None'
+         sameSite: 'Lax'
     }
 }));
 
+app.use((req, res, next) => {
+    console.log('Session before request:', req.session);
+    next();
+  });
+  
+  app.use((req, res, next) => {
+    console.log('Session after request:', req.session);
+    next();
+  });
 // Define routes for authentication and password management
 app.get("/", (req,res)=>{
     res.json("Hello")
