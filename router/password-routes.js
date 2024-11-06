@@ -82,7 +82,7 @@ router.post("/", isAuthenticated, async (req, res) => {
 
 // Get passwords
 router.get("/", isAuthenticated, async (req, res) => {
-    const userId = req.user.id; // Get user ID from the JWT payload
+    const userId = req.session.userId;
 
     console.log("Fetching passwords for user:", userId); // Log the userId to ensure it's being passed correctly
 
@@ -95,5 +95,6 @@ router.get("/", isAuthenticated, async (req, res) => {
         res.status(500).json({ success: false, message: "Error fetching passwords", error });
     }
 });
+
 
 module.exports = router;
