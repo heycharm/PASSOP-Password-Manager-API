@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user-model"); // Ensure this path is correct
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_TOKEN
 
 // Login route
 router.post('/login', async (req, res) => {
@@ -9,14 +11,28 @@ router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user || user.password !== password) {
-            return res.status(401).json({ msg: "Invalid credentials" });
+            return res.status(401).json({ msg: 'Invalid credentials' });
         }
-        
-        req.session.userId = user._id; // Store user ID in the session
-        res.status(200).json({ msg: "Login successful", user }); // Send a success response
+
+        // Create JWT token
+        const token = jwt.sign(
+            { userId: user._id, email: user.email },
+            process.env.JWT_TOKEN,
+            { expiresIn: '1d' } // Token expiry (1 day)
+        );
+
+        // Send JWT token as cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS
+            sameSite: 'None',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
+
+        res.json({ msg: 'Login successful', user });
     } catch (error) {
-        console.log("Login error:", error); // Log the full error for debugging
-        res.status(500).json({ msg: "Error during login", error });
+        console.error('Login error:', error);
+        res.status(500).json({ msg: 'Error during login', error });
     }
 });
 
