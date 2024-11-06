@@ -53,7 +53,7 @@ router.delete("/:id", isAuthenticated, async (req, res) => {
         const deletedPassword = await Password.findByIdAndDelete(id);
 
         if (!deletedPassword) {
-            console.log(`No document found with ID: ${id}`);
+            console.log("No document found with ID:" `${id}`);
             return res.status(404).json({ message: "Password not found" });
         }
 
@@ -67,8 +67,7 @@ router.delete("/:id", isAuthenticated, async (req, res) => {
 // Save a password
 router.post("/", isAuthenticated, async (req, res) => {
     const { site, username, password } = req.body;
-    const userId = req.user.id; // Extract user ID from JWT payload
-
+    const userId = req.user.userId; // Extract user ID from JWT payload
     const passwordData = new Password({ site, username, password, userId });
 
     try {
@@ -82,10 +81,7 @@ router.post("/", isAuthenticated, async (req, res) => {
 
 // Get passwords
 router.get("/", isAuthenticated, async (req, res) => {
-    const userId = req.session.userId;
-
-    console.log("Fetching passwords for user:", userId); // Log the userId to ensure it's being passed correctly
-
+    const userId = req.user.userId;
     try {
         const userPasswords = await Password.find({ userId });
         console.log("Found passwords:", userPasswords); // Log the result to ensure it's fetched

@@ -6,9 +6,6 @@ dotenv.config();
 const authenticateJWT = (req, res, next) => {
     // Ensure Authorization header is present and correctly formatted
     const authHeader = req.headers['authorization'];
-    if (!authHeader) {
-        return res.status(401).json({ message: "Authorization header is missing" });
-    }
 
     // Extract token from Authorization header
     const token = authHeader.split(' ')[1]; // Split 'Bearer <token>'
@@ -19,7 +16,7 @@ const authenticateJWT = (req, res, next) => {
     }
 
     // Verify the token and decode user information
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_TOKEN, (err, user) => {
         if (err) {
             return res.status(403).json({ message: "Invalid token" });
         }
@@ -27,5 +24,4 @@ const authenticateJWT = (req, res, next) => {
         next();
     });
 };
-
 module.exports = authenticateJWT;
