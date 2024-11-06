@@ -1,15 +1,22 @@
+// middleware/auth-middleware.js
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const authenticateJWT = (req, res, next) => {
-    const token = req.cookies.token || req.headers['authorization']?.split(' ')[1]; // Get token from cookie or authorization header
+    // Get token from the Authorization header
+    const token = req.headers['authorization']?.split(' ')[1]; 
 
     if (!token) {
-        return res.status(401).json({ msg: 'No token provided, authorization denied' });
+        return res.status(401).json({ message: "No token provided" });
     }
 
-    jwt.verify(token, process.env.JWT_TOKEN, (err, user) => {
+    // Verify the token and decode user information
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ msg: 'Token is not valid' });
+            return res.status(403).json({ message: "Invalid token" });
         }
-        req.user = user; // Attach user info to request object
+        req.user = user; // Attach user data to the request object
         next();
     });
 };

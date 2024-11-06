@@ -82,13 +82,16 @@ router.post("/", isAuthenticated, async (req, res) => {
 
 // Get passwords
 router.get("/", isAuthenticated, async (req, res) => {
-    const userId = req.user.id; // Extract user ID from JWT payload
+    const userId = req.user.id; // Get user ID from the JWT payload
+
+    console.log("Fetching passwords for user:", userId); // Log the userId to ensure it's being passed correctly
 
     try {
         const userPasswords = await Password.find({ userId });
+        console.log("Found passwords:", userPasswords); // Log the result to ensure it's fetched
         res.status(200).json(userPasswords);
     } catch (error) {
-        console.error("Error fetching passwords:", error);
+        console.error("Error fetching passwords:", error); // Log any error
         res.status(500).json({ success: false, message: "Error fetching passwords", error });
     }
 });
