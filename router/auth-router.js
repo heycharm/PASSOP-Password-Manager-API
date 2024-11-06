@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
 
         // Send JWT token as cookie
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
