@@ -29,7 +29,7 @@ console.log(token)
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
 
-        res.json({ msg: 'Login successful', user });
+        res.json({ msg: 'Login successful', token,user });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ msg: 'Error during login', error });
