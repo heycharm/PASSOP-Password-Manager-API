@@ -20,7 +20,6 @@ router.post('/login', async (req, res) => {
             process.env.JWT_TOKEN,
             { expiresIn: '1d' } // Token expiry (1 day)
         );
-console.log(token)
         // Send JWT token as cookie
         res.cookie('token', token, {
             httpOnly: false,
